@@ -4,13 +4,14 @@ from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, ReplyKe
 from telegram.ext import Application, CommandHandler, CallbackQueryHandler, MessageHandler, filters, ContextTypes
 import time
 import os
+import json
 
 # =======================
 # Bot Token
 TOKEN = "7884768889:AAHyXrH1YDwwPhHP-pZn9R5ukWhFPB4xG2U"
-
 # Firebase Initialization
 FIREBASE_KEY_JSON = os.environ['FIREBASE_AUTH']
+PORT = int(os.environ.get("PORT", 10000))
 cred_dict = json.loads(FIREBASE_KEY_JSON)
 cred = credentials.Certificate(cred_dict)  # path to Firebase key
 firebase_admin.initialize_app(cred, {
@@ -119,5 +120,6 @@ def main():
 # =======================
 if __name__ == "__main__":
     main()
+
 
 
