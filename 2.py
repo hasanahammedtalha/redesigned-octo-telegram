@@ -3,6 +3,7 @@ from firebase_admin import credentials, db
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMarkup, KeyboardButton
 from telegram.ext import Application, CommandHandler, CallbackQueryHandler, MessageHandler, filters, ContextTypes
 import time
+import os
 
 # =======================
 # Bot Token
@@ -118,4 +119,5 @@ def main():
 # =======================
 if __name__ == "__main__":
     main()
+
 
