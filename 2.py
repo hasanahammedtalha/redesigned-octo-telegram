@@ -15,23 +15,21 @@ firebase_admin.initialize_app(cred, {
 })
 
 # =======================
-# Save chat_id to Firebase
-def save_chat_id(chat_id):
-    try:
-        ref = db.reference('users')
-        ref.child(str(chat_id)).set({
-            'chat_id': chat_id,
-            'status': 'active'
-        })
-        print(f"[+] Saved user {chat_id}")
-    except Exception as e:
-        print(f"[!] Firebase save error: {e}")
+
 
 # =======================
 # /start command
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat_id = update.message.chat.id
-    save_chat_id(chat_id)
+    ref = db.reference('users')
+    ref.child(str(chat_id)).set({
+         'chat_id': chat_id,
+         'status': 'active'
+    })
+    await update.message.reply_text(
+        "✅ User Registered {chat_id}",
+        reply_markup=reply_markup
+    )
 
     keyboard = [[KeyboardButton("BUY OTP PRO")]]
     reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
@@ -75,15 +73,9 @@ def broadcast_message(app, text: str):
         return
 
     for uid, info in users.items():
-        for attempt in range(3):  # try max 3 times
-            try:
-                app.bot.send_message(chat_id=int(uid), text=text)
-                print(f"✅ Sent to {uid}")
-                break
-            except Exception as e:
-                print(f"[!] Failed to send to {uid} (attempt {attempt+1}): {e}")
-                time.sleep(2)  # wait before retry
-
+            app.bot.send_message(chat_id=int(uid), text=text)
+            await update.message.reply_text("✅ Send Successfully To {uid}")
+        
 # =======================
 # /broadcast command (admin only)
 async def broadcast_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -93,7 +85,7 @@ async def broadcast_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
 
     if not context.args:
-        await update.message.reply_text("⚠️ Usage: /broadcast Your message here")
+        await update.message.reply_text("⚠️ Usage: /note Your message here")
         return
 
     message = " ".join(context.args)
@@ -116,6 +108,7 @@ def main():
 # =======================
 if __name__ == "__main__":
     main()
+
 
 
 
