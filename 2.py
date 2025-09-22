@@ -74,7 +74,7 @@ def broadcast_message(app, text: str):
 
     for uid, info in users.items():
             app.bot.send_message(chat_id=int(uid), text=text)
-            await update.message.reply_text("✅ Send Successfully To {uid}")
+            await update.message.reply_text("✅ Send Successfully To ALL")
         
 # =======================
 # /broadcast command (admin only)
@@ -108,6 +108,7 @@ def main():
 # =======================
 if __name__ == "__main__":
     main()
+
 
 
 
