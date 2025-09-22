@@ -15,7 +15,7 @@ firebase_admin.initialize_app(cred, {
 })
 
 # =======================
-async def save_chat_id(chat_id):
+def save_chat_id(chat_id):
     try:
         ref = db.reference('users')
         ref.child(str(chat_id)).set({
@@ -23,7 +23,7 @@ async def save_chat_id(chat_id):
             'status': 'active'
         })
     finally:
-        await update.message.reply_text("✅ Register Successfully")
+        update.message.reply_text("✅ Register Successfully")
         
 # =======================
 # /start command
@@ -109,6 +109,7 @@ def main():
 # =======================
 if __name__ == "__main__":
     main()
+
 
 
 
