@@ -15,7 +15,19 @@ ADMIN_ID = "6893452352"
 
 # Firebase সেটআপ
 # serviceAccountKey.json ফাইলটির সঠিক পাথ দিন
-cred_json = json.loads(os.environ["FIREBASE_KEY"])
+cred_json = json.loads(os.environ["{
+  "type": "service_account",
+  "project_id": "jahanara-ef632",
+  "private_key_id": "3fa75ae361cf3b1f93a7911377303df7d51f7e82",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDze9u7ESNAsgJY\nlsGkkiO+fiXlqS/e/iKRhLA7VSKlYcFlB33Ps0dE1MznntF9w9tj61NPSErhUOO0\nRA+EgTVHio2LzusXN4xYX2EIJIMsY3XWdZcdiEl0dGZUDl1K7y/1fACDDy6p5GXT\n5iyMrH3dHxWX3BEQ8Qtb/Nx7lVD3I2ttIS9qwwE/0yiCOVVnS3gxkZz0yNOfFZxk\nqNj6QdffZbjsmhyo1aFroAl32p0IObuO0qNdFE1tNw6QI8TncDxXlFX47poANauZ\n/xZ00dJmoipxWo8Vf17lEFP/WJarWZjWlQUg0Kuz/aNzIUjzjrMT5hciRK7IbLQX\nhACdU+bhAgMBAAECggEADFDCHhnJb5DpbTdv4z34lJ6vFkka2KPAVh2w58lgO58A\nkBaDSrWJ1+2PETKfbEXzM4BASiDxF6k2oUQ1iDlcW2piyzTrv3SB8ujdILMvFthP\niinPu1DMzVkDYYJJ/fuv8HHlmTtz++gnbeLFM1bYtW3octJQ4ytcDJqzQMV+T0e4\nONBd/OoMzqE7HrKtAa3/w75irr8ElqE0fh3hO5uNM5UpV4Nk1Xw3A2WZEsbjWIim\nXZtcL9hhAhvQbjDOfw1SyV14+dL28tsYZ42TYkbRws5H5HHgyPc9P2qtri8cTi+k\nKYi/28BtgWSa3RamIUsRaUiudIEoN2H6ZYUHpgcu6QKBgQD/Dbot7STlomqzmMlW\ng4dUAtIfbQsmzBj/G6JexgJU2x86O9STEZreTO/0WBgiLtts7XD1JFb2EltDNUzi\n/ovBK8zrpd1WTVjgpHrhkh7brl3jtvLg90HlPwQbooN/L/UFJhZcUr/6pjY30UEL\nvlmeIIs1C9uLaA1VlX83ShQDOQKBgQD0YyQadjXhuAeBzgIr+4XcjfVGg8IDOwJR\n3e4YPeYdwFDjSQvdczL2Wg7BmjUEr+qyCondUIyy+hFDB0LBSr6EU8XEaCyrOf9w\nMgkU5U8ia8T9ZIky0SLYGHxKDvH01QeCj3BBTO2Zyw4wfW7kATVMN+qV2XgrvjBp\nmZG0SSy46QKBgQDFabSfc5xJeWspU6sTIX8PkZdd56LoBrWaT6Nfw9duIqSLCGBC\n7S93vQlFkSIs4yPHrgjuVZBRqmelH45BbFBz1hkolBs7f2a5idXq3pSv6MiXRrW7\nVuZUMHBXi3RIb7AwqghIsWwS76+riHXWRyFKeVoGVwU5Y/JeOfZbryTKUQJ/SI0m\nKrTtShVYJTEDdAs3skJyjnyPHGZoSeWYyZmWtz5gxRjqbNPGTVxvBQrCsqGHC1QV\nmZ5QJtIWTc/aAYgvBxnXnHdQy4RsUOKJz6pD0/Qqhw9Rq8Rqk7yxKUtGiWi00g3D\nRZ+Q6hdeHwcd5JJ3QClZeyMUiefsd20f1GXk4QKBgQCW5mhDyYTUxMHuL9avUlQq\nbLPC2/I5HS3fna62fIdUCrj3IMxWd0fpWPZoy3wyjkumBVHHT7rD9odCDYU6o8RA\nXBK9UeVVhtaqJioeFo/QrgZfCmEoyhOIesAJNXoFwyyTiCSfmmmHiEID7YzS246E\nAeJpYt5nIKWW/aV/UOqbrQ==\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-fbsvc@jahanara-ef632.iam.gserviceaccount.com",
+  "client_id": "109393520407792440821",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-fbsvc%40jahanara-ef632.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}"])
 cred = credentials.Certificate(cred_json)
 firebase_admin.initialize_app(cred, {
     # আপনার Firebase Realtime Database-এর URL
@@ -154,4 +166,5 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
 
