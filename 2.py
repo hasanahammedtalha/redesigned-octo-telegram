@@ -9,19 +9,20 @@ import json
 # =======================
 # Bot Token
 TOKEN = "7884768889:AAHyXrH1YDwwPhHP-pZn9R5ukWhFPB4xG2U"
-cred = credentials.Certificate("./serviceAccountKey.json")  # path to Firebase key
+cred = credentials.Certificate("serviceAccountKey.json")  # path to Firebase key
 firebase_admin.initialize_app(cred, {
     'databaseURL': 'https://jahanara-ef632-default-rtdb.asia-southeast1.firebasedatabase.app/'
 })
 
 # =======================
 
+    chat_id = update.message.chat.id
+    ref = db.reference('users')
 
 # =======================
 # /start command
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    chat_id = update.message.chat.id
-    ref = db.reference('users')
+
     ref.child(str(chat_id)).set({
          'chat_id': chat_id,
          'status': 'active'
@@ -108,6 +109,7 @@ def main():
 # =======================
 if __name__ == "__main__":
     main()
+
 
 
 
