@@ -15,22 +15,22 @@ firebase_admin.initialize_app(cred, {
 })
 
 # =======================
-
-    chat_id = update.message.chat.id
-    ref = db.reference('users')
-
+def save_chat_id(chat_id):
+    try:
+        ref = db.reference('users')
+        ref.child(str(chat_id)).set({
+            'chat_id': chat_id,
+            'status': 'active'
+        })
+    finally:
+        await update.message.reply_text("✅ Register Successfully")
+        
 # =======================
 # /start command
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
-    ref.child(str(chat_id)).set({
-         'chat_id': chat_id,
-         'status': 'active'
-    })
-    await update.message.reply_text(
-        "✅ User Registered {chat_id}",
-        reply_markup=reply_markup
-    )
+    chat_id = update.message.chat.id
+    save_chat_id(chat_id)
 
     keyboard = [[KeyboardButton("BUY OTP PRO")]]
     reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
@@ -109,6 +109,7 @@ def main():
 # =======================
 if __name__ == "__main__":
     main()
+
 
 
 
