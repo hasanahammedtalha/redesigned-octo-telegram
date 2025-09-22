@@ -4,6 +4,8 @@ from telegram.ext import Application, CommandHandler, MessageHandler, filters, C
 from telegram.error import Forbidden
 import firebase_admin
 from firebase_admin import credentials, db
+import json
+import os
 
 # --- আপনার তথ্য এখানে দিন ---
 # আপনার টেলিগ্রাম বটের টোকেন
@@ -13,7 +15,8 @@ ADMIN_ID = "6893452352"
 
 # Firebase সেটআপ
 # serviceAccountKey.json ফাইলটির সঠিক পাথ দিন
-cred = credentials.Certificate("serviceAccountKey.json")
+cred_json = json.loads(os.environ["FIREBASE_KEY"])
+cred = credentials.Certificate(cred_json)
 firebase_admin.initialize_app(cred, {
     # আপনার Firebase Realtime Database-এর URL
     'databaseURL': 'https://jahanara-ef632-default-rtdb.asia-southeast1.firebasedatabase.app/'
@@ -151,3 +154,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
