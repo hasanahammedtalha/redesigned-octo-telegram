@@ -5,7 +5,6 @@ from telegram.error import Forbidden
 import firebase_admin
 from firebase_admin import credentials, db
 import json
-import os
 
 # --- আপনার তথ্য এখানে দিন ---
 # আপনার টেলিগ্রাম বটের টোকেন
@@ -15,11 +14,11 @@ ADMIN_ID = "6893452352"
 
 # Firebase সেটআপ
 # serviceAccountKey.json ফাইলটির সঠিক পাথ দিন
-cred_json = json.loads(os.environ["{
+cred_json = {
   "type": "service_account",
   "project_id": "jahanara-ef632",
-  "private_key_id": "3fa75ae361cf3b1f93a7911377303df7d51f7e82",
-  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDze9u7ESNAsgJY\nlsGkkiO+fiXlqS/e/iKRhLA7VSKlYcFlB33Ps0dE1MznntF9w9tj61NPSErhUOO0\nRA+EgTVHio2LzusXN4xYX2EIJIMsY3XWdZcdiEl0dGZUDl1K7y/1fACDDy6p5GXT\n5iyMrH3dHxWX3BEQ8Qtb/Nx7lVD3I2ttIS9qwwE/0yiCOVVnS3gxkZz0yNOfFZxk\nqNj6QdffZbjsmhyo1aFroAl32p0IObuO0qNdFE1tNw6QI8TncDxXlFX47poANauZ\n/xZ00dJmoipxWo8Vf17lEFP/WJarWZjWlQUg0Kuz/aNzIUjzjrMT5hciRK7IbLQX\nhACdU+bhAgMBAAECggEADFDCHhnJb5DpbTdv4z34lJ6vFkka2KPAVh2w58lgO58A\nkBaDSrWJ1+2PETKfbEXzM4BASiDxF6k2oUQ1iDlcW2piyzTrv3SB8ujdILMvFthP\niinPu1DMzVkDYYJJ/fuv8HHlmTtz++gnbeLFM1bYtW3octJQ4ytcDJqzQMV+T0e4\nONBd/OoMzqE7HrKtAa3/w75irr8ElqE0fh3hO5uNM5UpV4Nk1Xw3A2WZEsbjWIim\nXZtcL9hhAhvQbjDOfw1SyV14+dL28tsYZ42TYkbRws5H5HHgyPc9P2qtri8cTi+k\nKYi/28BtgWSa3RamIUsRaUiudIEoN2H6ZYUHpgcu6QKBgQD/Dbot7STlomqzmMlW\ng4dUAtIfbQsmzBj/G6JexgJU2x86O9STEZreTO/0WBgiLtts7XD1JFb2EltDNUzi\n/ovBK8zrpd1WTVjgpHrhkh7brl3jtvLg90HlPwQbooN/L/UFJhZcUr/6pjY30UEL\nvlmeIIs1C9uLaA1VlX83ShQDOQKBgQD0YyQadjXhuAeBzgIr+4XcjfVGg8IDOwJR\n3e4YPeYdwFDjSQvdczL2Wg7BmjUEr+qyCondUIyy+hFDB0LBSr6EU8XEaCyrOf9w\nMgkU5U8ia8T9ZIky0SLYGHxKDvH01QeCj3BBTO2Zyw4wfW7kATVMN+qV2XgrvjBp\nmZG0SSy46QKBgQDFabSfc5xJeWspU6sTIX8PkZdd56LoBrWaT6Nfw9duIqSLCGBC\n7S93vQlFkSIs4yPHrgjuVZBRqmelH45BbFBz1hkolBs7f2a5idXq3pSv6MiXRrW7\nVuZUMHBXi3RIb7AwqghIsWwS76+riHXWRyFKeVoGVwU5Y/JeOfZbryTKUQJ/SI0m\nKrTtShVYJTEDdAs3skJyjnyPHGZoSeWYyZmWtz5gxRjqbNPGTVxvBQrCsqGHC1QV\nmZ5QJtIWTc/aAYgvBxnXnHdQy4RsUOKJz6pD0/Qqhw9Rq8Rqk7yxKUtGiWi00g3D\nRZ+Q6hdeHwcd5JJ3QClZeyMUiefsd20f1GXk4QKBgQCW5mhDyYTUxMHuL9avUlQq\nbLPC2/I5HS3fna62fIdUCrj3IMxWd0fpWPZoy3wyjkumBVHHT7rD9odCDYU6o8RA\nXBK9UeVVhtaqJioeFo/QrgZfCmEoyhOIesAJNXoFwyyTiCSfmmmHiEID7YzS246E\nAeJpYt5nIKWW/aV/UOqbrQ==\n-----END PRIVATE KEY-----\n",
+  "private_key_id": "348c16145c9c97e4f34e11644a6869b4c826720a",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDBSyrV5gQM3FF0\n1tAgf4Mwvx0I7h197jej/pX1s/DxDt3JzlY7Jrr5d0VQfXOQhlcqNddYJx35l3JH\nNyMS8OkL/qQqIfFOwOSz12gcVYReLOK+aVYwG0uezk26UcdublihT/PlnM9e0u4w\nn0ZojXMUq9MGADyVexUgw9uT4rLJbu0CRAStUxyDATkNnkxIlirrqsV2pxjCCHeb\np3sA6IodCkjDUoevQZcop/z+A86iGuGO/tjHA8f4nwrukt5VQj8ESBE0hYgSoaRQ\nUYO4Pj+GOdE7jUnlWb8/fdzj8LoMTHwgCqFdjBIqq7GcxvS/fNMAMXona1P2ZNdt\nppsoylh5AgMBAAECggEALzg3rK1WS/X+iDZ5/ZZo7B2j8CyLU9pACXYGGFHvCFSD\nZetcMXMStiKm8jTTaHkJDiy9ALH9pp2Ss0cK8HOd2upIHGrSUlTZCf4TVuilP4Rj\nl/SPs4zXemIXpu6Xc6jNSgsIIA2gsx+ARKyEPMJhXKllEdA4/KNm0+xE1enJl19u\nNnYzJWXbpQdq1irGp2c3B1GVe2pJx0RUheoYnaUYXRd1RP4uWscX3irs004Xi/dm\nRxU4xTDgTgLdMYt8F5lP5NSqsR1eCgp3Gx1eNc5f+YsLLTQFT0F/Y46x7JFvhn2K\nm8EjvTzw4ixIDW2/doiHfvMNhGqg554GkH2GfIlV6QKBgQD9cNrsz3+43x+avROL\n5F5ih23vWBXU6VPrrffBipAZt3nhcDYkGMlWZ4E1ejb2gdRtJuAd+Ni0jxMsnq6g\nzyL8ZhqrDSp/nVofroljJikAuq2/kckgO4tnurAteq9/A+nVCgZ4amKGdc2xmZdU\nJnRHlSclTWzign5/CZo2t5k9qwKBgQDDPtTfRLB7e6pb7kYLmwijKIVrEPrHrNvi\np4Mq9qdlxsESSFeojabu9iEy7plHYjPvM8bZ2fFLx2OWGDxJf8SCUd0zZ6qc4wbW\nD05DH0wgYigetQELY8nzRsr5pgbt9kyyYt5FkOB4Lk8DiO39dpdNi44lRhWC+U42\npMZGy7K2awKBgGagTmZaV9PatgeIzON25CltwbyLpLuEiDEFTzAWFefz/eyl7aaM\nSussGow3Iw6K4CQa++HnJIlo7lDBKOGBPx+JkP724+CtLRNrL8LwbuYWscjDFfhx\nZC/qzvB7n5kFUqir2JbmLWNZTKPAGCFBORDLewCF67OFOAflMYc6rVjlAoGBAKwk\nW582eruEvyEqpctZt3XTJj7Ny639NClUNAvPSKwtXtD1w4Oy0LnjfEXhpHcRmGSQ\nLASraVm8xIrzd0P+SI32C6dlAUIt0DsvZ3s6vu3WXTUltXQLWWUKx67wuS9ZdynY\njcyb/a04dyXQtrRAuQn/vyYR8ql1kYYQJVkKA9ldAoGBAI68ERuhLwCbDPP3Vwni\nGR1wwslj0jytCyiMWnAASp9cTJ2hf1m13tkqdd3m3r1yS1lswYafUUpcgwPhVmEU\nYLeREhznncc4himUKUA6L88xJ9H+7R0e5EnJWq2z3pjN2HlR6/LyLqhO2Wboa6QC\nAPphW9geMdysJOn6RiS/ZUUt\n-----END PRIVATE KEY-----\n",
   "client_email": "firebase-adminsdk-fbsvc@jahanara-ef632.iam.gserviceaccount.com",
   "client_id": "109393520407792440821",
   "auth_uri": "https://accounts.google.com/o/oauth2/auth",
@@ -27,7 +26,9 @@ cred_json = json.loads(os.environ["{
   "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
   "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-fbsvc%40jahanara-ef632.iam.gserviceaccount.com",
   "universe_domain": "googleapis.com"
-}"])
+}
+
+
 cred = credentials.Certificate(cred_json)
 firebase_admin.initialize_app(cred, {
     # আপনার Firebase Realtime Database-এর URL
@@ -166,5 +167,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
 
