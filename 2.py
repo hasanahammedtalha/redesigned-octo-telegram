@@ -9,11 +9,7 @@ import json
 # =======================
 # Bot Token
 TOKEN = "7884768889:AAHyXrH1YDwwPhHP-pZn9R5ukWhFPB4xG2U"
-# Firebase Initialization
-FIREBASE_KEY_JSON = os.environ['FIREBASE_AUTH']
-PORT = int(os.environ.get("PORT", 10000))
-cred_dict = json.loads(FIREBASE_KEY_JSON)
-cred = credentials.Certificate(cred_dict)  # path to Firebase key
+cred = credentials.Certificate("./serviceAccountKey.json")  # path to Firebase key
 firebase_admin.initialize_app(cred, {
     'databaseURL': 'https://jahanara-ef632-default-rtdb.asia-southeast1.firebasedatabase.app/'
 })
@@ -120,6 +116,7 @@ def main():
 # =======================
 if __name__ == "__main__":
     main()
+
 
 
 
