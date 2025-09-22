@@ -54,15 +54,19 @@ async def main():
     RENDER_URL = "https://redesigned-octo-telegram-12x.onrender.com/"  # এখানে নিজের Render domain বসাও
 
     # await দিয়ে call করো
-    await app.bot.delete_webhook()
-    await app.bot.set_webhook(RENDER_URL)
+    app.bot.delete_webhook()
+    app.bot.set_webhook(RENDER_URL)
 
-    await app.run_webhook(
-        listen="0.0.0.0",
-        port=PORT,
-        webhook_url=RENDER_URL
-    )
+    # পুরনো webhook clear করো
+    app.bot.delete_webhook()
+
+    # Render এর domain বসাও (নিজের domain দিয়ে পরিবর্তন করো)
+    RENDER_URL = "https://redesigned-octo-telegram-12x.onrender.com/"
+    app.bot.set_webhook(RENDER_URL)
+
+    app.run_webhook(listen="0.0.0.0", port=PORT, webhook_url=RENDER_URL)
+
 
 if __name__ == "__main__":
-    import asyncio
-    asyncio.run(main())
+    main()
+
