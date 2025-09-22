@@ -1,89 +1,85 @@
-from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMarkup, KeyboardButton
-from telegram.ext import Application, CommandHandler, CallbackQueryHandler, MessageHandler, filters, ContextTypes
+import logging
+from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMarkup
+from telegram.ext import Application, CommandHandler, MessageHandler, filters, CallbackQueryHandler, ContextTypes
 
-# =======================
-# Bot Token
+# আপনার টেলিগ্রাম বটের টোকেন এখানে দিন
 TOKEN = "7884768889:AAHyXrH1YDwwPhHP-pZn9R5ukWhFPB4xG2U"
 
-# 
-# =======================
-# /start command
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    keyboard = [[KeyboardButton("🛒 BUY SERVICES")]]
-    reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
+# লগিং কনফিগার করা হচ্ছে
+logging.basicConfig(
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
+)
+logger = logging.getLogger(__name__)
+
+# /start কমান্ডের জন্য ফাংশন
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """/start কমান্ড দিলে এই ফাংশনটি কাজ করবে"""
+
+    # --- বটম বাটন (Reply Keyboard) ---
+    reply_keyboard = [
+        ["মেনু ১", "মেনু ২"],
+        ["সাহায্য"]
+    ]
+    reply_markup = ReplyKeyboardMarkup(reply_keyboard, resize_keyboard=True)
+
+    # --- ইনলাইন বাটন (Inline Keyboard) ---
+    inline_keyboard = [
+        [InlineKeyboardButton("ইনলাইন বাটন ১", callback_data='inline_1')],
+        [InlineKeyboardButton("ইনলাইন বাটন ২", callback_data='inline_2')],
+    ]
+    inline_markup = InlineKeyboardMarkup(inline_keyboard)
 
     await update.message.reply_text(
-        "👋 আসসালামু আলাইকুম \n✅ Sell4U তে আপনাকে স্বাগতম \n🟢 Join Official Channel For Updates \n👉 @sell4u_market 👈",
+        "হ্যালো! আমি একটি ডেমো বট।",
         reply_markup=reply_markup
     )
 
-# =======================
-# Handle text messages
-async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    text = update.message.text.strip()
-
-    if text == "🛒 BUY SERVICES":
-        keyboard = [
-            [InlineKeyboardButton("🔗 BUY PROXY PRO", callback_data="normal_btn")],
-            [InlineKeyboardButton("🎬 HOW TO BUY", url="https://t.me/sell4upay_bot")]
-        ]
-        reply_markup = InlineKeyboardMarkup(keyboard)
-        await update.message.reply_text(
-            "✅ Premium Proxy কিনতে নিতে দেওয়া বাটনে ক্লিক করুন \n যদি না জেনে থাকেন তাহলে ভিডিও দেখে আসেন",
-            reply_markup=reply_markup
-        )
-
-# =======================
-# Handle callback buttons
-async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
-
-        query = update.callback_query
-        await query.answer()
-        if query.data == "normal_btn":
-            await query.edit_message_text(text="👉 PROXY DETAILS \n NAME: USA(BUFALIO)[PRO] \n SPEED: 3MB ↓↑ \n ISSUE: ❌ NO ISSUE \n ID SUSPEND: ⛔ NO \n LIMIT: 1GB \n USES: 24/7 \n PRICE: 40 BDT/0.38 USD \n\n\n 🛒 FOR BUY 🛒\n PAY 40 BTD ON BKASH/NAGAD\n 01796095176\n GIVE SCREENSHOT OF PAYMENT\n BOT: @sell4ubd_bot\n CHANNEL: @sell4u_market")
+    await update.message.reply_text(
+        "অনুগ্রহ করে একটি ইনলাইন বাটন নির্বাচন করুন:",
+        reply_markup=inline_markup
+    )
 
 
+# ইনলাইন বাটন ক্লিকের জন্য ফাংশন
+async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """ইনলাইন বাটনের কলব্যাক ডেটা হ্যান্ডেল করে"""
+    query = update.callback_query
+    await query.answer() # কলব্যাক ক্যোয়ারীটি গ্রহণ করা হয়েছে তা নিশ্চিত করে
+
+    if query.data == 'inline_1':
+        await query.edit_message_text(text="আপনি 'ইনলাইন বাটন ১' ক্লিক করেছেন।")
+    elif query.data == 'inline_2':
+        await query.edit_message_text(text="আপনি 'ইনলাইন বাটন ২' ক্লিক করেছেন।")
 
 
-# Broadcast function
-# def broadcast_message(app, text: str):
-#     ref = db.reference('users')
-#     users = ref.get()
-#     if not users:
-#         print("No users to broadcast.")
-#         return
-#     for uid, info in users.items():
-#         try:
-#             app.bot.send_message(chat_id=int(uid), text=text)
-#             print(f"Sent to {uid}")
-#         except Exception as e:
-#             print(f"Failed to send to {uid}: {e}")
+# সাধারণ মেসেজ হ্যান্ডেল করার জন্য ফাংশন (বটম বাটনের জন্য)
+async def message_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """বটম বাটন থেকে আসা টেক্সট মেসেজ হ্যান্ডেল করে"""
+    user_message = update.message.text
 
-# # =======================
-# # /broadcast command (admin only)
-# async def broadcast_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-#     admin_id = 6893452352  # <-- Replace with your Telegram ID
-#     if update.effective_user.id != admin_id:
-#         await update.message.reply_text("❌ You are not authorized to use this command.")
-#         return
-#     message = " ".join(context.args)
-#     broadcast_message(context.application, message)
-#     await update.message.reply_text("✅ Broadcast sent!")
+    if user_message == "মেনু ১":
+        await update.message.reply_text("আপনি 'মেনু ১' নির্বাচন করেছেন।")
+    elif user_message == "মেনু ২":
+        await update.message.reply_text("আপনি 'মেনু ২' নির্বাচন করেছেন।")
+    elif user_message == "সাহায্য":
+        await update.message.reply_text("সাহায্যের জন্য /start কমান্ড দিন।")
+    else:
+        await update.message.reply_text(f"আপনি বলেছেন: {user_message}")
 
-# =======================
-# Main function
-def main():
-    app = Application.builder().token(TOKEN).build()
 
-    # Handlers
-    app.add_handler(CommandHandler("start", start))
-    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
-    app.add_handler(CallbackQueryHandler(button_handler))
-    # app.add_handler(CommandHandler("broadcast", broadcast_command))
+def main() -> None:
+    """বটটি চালু করার জন্য প্রধান ফাংশন"""
+    # অ্যাপ্লিকেশন তৈরি করুন এবং আপনার বটের টোকেন দিন
+    application = Application.builder().token(TOKEN).build()
 
-    print("✅ Bot is running...")
-    app.run_polling()
+    # বিভিন্ন কমান্ডের জন্য হ্যান্ডেলার যোগ করুন
+    application.add_handler(CommandHandler("start", start))
+    application.add_handler(CallbackQueryHandler(button_callback))
+    application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, message_handler))
 
-# =======================
+    # বটটি চালু করুন
+    application.run_polling()
+
+
 if __name__ == "__main__":
     main()
