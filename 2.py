@@ -65,7 +65,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 # =======================
 # Broadcast with retry
-def broadcast_message(app, text: str):
+async def broadcast_message(app, text: str):
     ref = db.reference('users')
     users = ref.get()
     if not users:
@@ -108,6 +108,7 @@ def main():
 # =======================
 if __name__ == "__main__":
     main()
+
 
 
 
