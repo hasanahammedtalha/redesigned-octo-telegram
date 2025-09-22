@@ -1,42 +1,22 @@
-import firebase_admin
-from firebase_admin import credentials, db
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMarkup, KeyboardButton
 from telegram.ext import Application, CommandHandler, CallbackQueryHandler, MessageHandler, filters, ContextTypes
-import time
-import os
-import json
+
 
 # =======================
 # Bot Token
 TOKEN = "7884768889:AAHyXrH1YDwwPhHP-pZn9R5ukWhFPB4xG2U"
-cred = credentials.Certificate("serviceAccountKey.json")  # path to Firebase key
-firebase_admin.initialize_app(cred, {
-    'databaseURL': 'https://jahanara-ef632-default-rtdb.asia-southeast1.firebasedatabase.app/'
-})
 
-# =======================
-def save_chat_id(chat_id):
-    try:
-        ref = db.reference('users')
-        ref.child(str(chat_id)).set({
-            'chat_id': chat_id,
-            'status': 'active'
-        })
-    finally:
-        update.message.reply_text("✅ Register Successfully")
-        
+
+
 # =======================
 # /start command
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
-    chat_id = update.message.chat.id
-    save_chat_id(chat_id)
-
-    keyboard = [[KeyboardButton("BUY OTP PRO")]]
+    keyboard = [[KeyboardButton("🛒 BUY SERVICES")]]
     reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
 
     await update.message.reply_text(
-        "👋 আসসালামু আলাইকুম \n✅ Sell4U তে আপনাকে স্বাগতম \n🟢 Join Official Channel For Updates",
+        "👋 আসসালামু আলাইকুম \n✅ Sell4U তে আপনাকে স্বাগতম \n🟢 Join Official Channel For Updates \n👉 @sell4u_market 👈",
         reply_markup=reply_markup
     )
 
@@ -47,12 +27,12 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     if text == "BUY OTP PRO":
         keyboard = [
-            [InlineKeyboardButton("🔗 GO TO BUY", url="https://t.me/sell4upay_bot")],
-            [InlineKeyboardButton("👍 Normal Button", callback_data="normal_btn")]
+            [InlineKeyboardButton("🔗 BUY PROXY PRO", callback_data="normal_btn")],
+            [InlineKeyboardButton("🎬 HOW TO BUY", url="https://t.me/sell4upay_bot")]
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
         await update.message.reply_text(
-            "✅ OTP BOT Premium কিনতে নিতে দেওয়া বাটনে ক্লিক করুন",
+            "✅ Premium Proxy কিনতে নিতে দেওয়া বাটনে ক্লিক করুন \n যদি না জেনে থাকেন তাহলে ভিডিও দেখে আসেন",
             reply_markup=reply_markup
         )
 
@@ -62,36 +42,9 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
     if query.data == "normal_btn":
-        await query.edit_message_text(text="👉 আপনি Normal Button চাপছেন!")
+        await query.edit_message_text(text="👉 PROXY DETAILS \n NAME: USA(BUFALIO)[PRO] \n SPEED: 3MB ↓↑ \n ISSUE: ❌ NO ISSUE \n ID SUSPEND: ⛔ NO \n LIMIT: 1GB \n USES: 24/7 \n PRICE: 40 BDT/0.38 USD \n\n\n 🛒 FOR BUY 🛒\n PAY 40 BTD ON BKASH/NAGAD\n 01796095176\n GIVE SCREENSHOT OF PAYMENT\n BOT: @sell4ubd_bot\n CHANNEL: @sell4u_market")
 
-# =======================
-# Broadcast with retry
-async def broadcast_message(app, text: str):
-    ref = db.reference('users')
-    users = ref.get()
-    if not users:
-        print("⚠️ No users found")
-        return
 
-    for uid, info in users.items():
-            app.bot.send_message(chat_id=int(uid), text=text)
-            await update.message.reply_text("✅ Send Successfully To ALL")
-        
-# =======================
-# /broadcast command (admin only)
-async def broadcast_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    admin_id = 6893452352  # replace with your Telegram ID
-    if update.effective_user.id != admin_id:
-        await update.message.reply_text("❌ You are not authorized to use this command.")
-        return
-
-    if not context.args:
-        await update.message.reply_text("⚠️ Usage: /note Your message here")
-        return
-
-    message = " ".join(context.args)
-    broadcast_message(context.application, message)
-    await update.message.reply_text("✅ Note sent!")
 
 # =======================
 # Main function
@@ -101,7 +54,6 @@ def main():
     app.add_handler(CommandHandler("start", start))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
     app.add_handler(CallbackQueryHandler(button_handler))
-    app.add_handler(CommandHandler("note", broadcast_command))
 
     print("🚀 Bot is running...")
     app.run_polling()
@@ -109,14 +61,3 @@ def main():
 # =======================
 if __name__ == "__main__":
     main()
-
-
-
-
-
-
-
-
-
-
-
