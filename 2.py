@@ -39,10 +39,10 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
             text="👉 PROXY DETAILS \n NAME: USA(BUFALIO)[PRO] \n SPEED: 3MB ↓↑ \n ISSUE: ❌ NO ISSUE \n ID SUSPEND: ⛔ NO \n LIMIT: 1GB \n USES: 24/7 \n PRICE: 40 BDT/0.38 USD \n\n\n 🛒 FOR BUY 🛒\n PAY 40 BTD ON BKASH/NAGAD\n 01796095176\n GIVE SCREENSHOT OF PAYMENT\n BOT: @sell4ubd_bot\n CHANNEL: @sell4u_market"
         )
 
-# =======================
-# Main function (async safe)
-async def main():
-    app = Application.builder().token(TOKEN).build()
+# ======================
+
+if __name__ == "__main__":
+     app = Application.builder().token(TOKEN).build()
 
     app.add_handler(CommandHandler("start", start))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
@@ -66,7 +66,4 @@ async def main():
 
     app.run_webhook(listen="0.0.0.0", port=PORT, webhook_url=RENDER_URL)
 
-
-if __name__ == "__main__":
-    main()
 
