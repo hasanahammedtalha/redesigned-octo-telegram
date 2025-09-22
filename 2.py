@@ -15,7 +15,7 @@ firebase_admin.initialize_app(cred, {
 })
 
 # =======================
-def save_chat_id(chat_id):
+async def save_chat_id(chat_id):
     try:
         ref = db.reference('users')
         ref.child(str(chat_id)).set({
@@ -109,6 +109,7 @@ def main():
 # =======================
 if __name__ == "__main__":
     main()
+
 
 
 
