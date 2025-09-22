@@ -1,4 +1,5 @@
 import logging
+import os
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMarkup
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, CallbackQueryHandler, ContextTypes
 from telegram.error import Forbidden
@@ -14,19 +15,7 @@ ADMIN_ID = "6893452352"
 
 # Firebase সেটআপ
 # serviceAccountKey.json ফাইলটির সঠিক পাথ দিন
-cred_json = {
-  "type": "service_account",
-  "project_id": "jahanara-ef632",
-  "private_key_id": "31aac16002452541f7310a589cb726b858310709",
-  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCxKMP4m9AWXd0p\ncCXbNX90E9cjMfNznmTAcTQ+3uU6YDKIWx8kAOn6iMXsLxyxjY/6SiVNwoptRvsj\nb9R6AbxBTtrCgEYLeDs5bEatJFL6JmqTiaWY2ZXyRUiWmfVFDxW78BaeWkHF8fFb\nuzWnv5i8mfyMbKSrOHSB3YpVmD4iJJwCLRlFGtf3hKLqm08vq+UbMrw16EbTJIcd\ngYw4OR/sYnFfOSQshIdhqphiEDmJELlNR0S3blOmNh9vN7dbbhMoptLTjS06ZptT\nXtIHfLP/QCOAUHdZrt//olL5QSKVfrAm8Z3pqFMtPTzDG7DJlJPjQ4CvKqXTRcee\neRnoybLTAgMBAAECggEATfMF50mHkY/TU/xIa99qKQTh0FaWK/Uxl4s31cH1Um4p\nTd3qIclVKissCvPfyC/lfddJ+qDyj4p/zePStaw1zPaJQrN2Hm3UgTunDV/CMtbc\nZfZWqp5yX5skiT9MsAonIf5NtXc5IYOHEzmYLisbZUDL4m2bNsssWEfGKktGa3a6\nxbKeHrdBtLlc4Egb9c3UPuphUIs0N9HHMK3nf9Q0HXnrJTrifqJ/0YC76jVvOdLp\ns/N4ZrKXel/ArVTVe0XHLq3Dqkhu7P1OrtlQVYnjfHP1arX4wnLqGF0T9hbbxuS/\nHUKKlj/+VCLOdxh4mfcFc8s1Hzo7CRd3Jm+GyOXI4QKBgQD2/iCmuY+ujdrqITdG\nbPk/yl2MaIkQ6vIz21xqGJsyVa9vuRaxnh4rweyOzEbvQlaLvuO9z/THhsrBpfUG\neXa/2CfVInFojLB+HzzdvanrwVhaFOqk5BJHYxa91yP/qeeDAFoZDGNBVdhJpnCl\n+mnRRuJTrQ6WRNgi51kgSy+QRwKBgQC3nq/6XQwZXKN+P+sUvw9PzFpQ6H9yrOAN\n/WK+W3SzOpnJufefmz79YJk8O8DlkrzYci63/zSHo8a+uNdHu7EQBEfbWiQIGgS0\nBKd7xg6lGbl2sLiRXRylAuVQ/qYNB6PD16LHA72yLFO0IkC5d5B4J4rAUoxTtVOK\nYnpgKwm7FQKBgQCSr/agThBBMMpUxolXcBzPf9XzL5pHy+EwXxURha+WQ0E/7wLF\nVgzBHBjr7fIq4pEXybTj4/+SCEGepHtS7wxRf4SYli4YU4X2QYMahivGcjuQtF9u\nsm0QrI6zDHS6wCNYr/rSaYMBKISdqRW53XC+84QzAdJp+FUM1a0e+sgyvQKBgBN4\n6qScVXojDtuGn8F1eYQ24aUO4uUgXCpfoqcZP8j5//EanZ35cragFeADXjN6WjiB\n815j3Ag+YAc9xua+ispuCcjDSGrrh3AnxjMkD82GatqhZxFTVIRTSEpMlwNuufk8\n1vBP/z/z33SM5VxFx7ZWSyqWFneSFSfpxZyJM+D5AoGAYO3pg3QZYoqjgsRqWeqF\nGBHH7H6FOXhANNA2jG4MI1o8q9Ybvg6Fm6wIbyZ5NubkXuwgQJcBBo1TwU1ROpLK\nDWt/g3gmTri6agt6UWMdR/zs/qFAo+QmxNa/QVaeyeIyT+Fb8kM7Vpi9V5PwaogN\n+4a/xCPH9PWZQ/8Y7Xmbyf8=\n-----END PRIVATE KEY-----\n",
-  "client_email": "firebase-adminsdk-fbsvc@jahanara-ef632.iam.gserviceaccount.com",
-  "client_id": "109393520407792440821",
-  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-  "token_uri": "https://oauth2.googleapis.com/token",
-  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-fbsvc%40jahanara-ef632.iam.gserviceaccount.com",
-  "universe_domain": "googleapis.com"
-}
+cred_json = os.environ.get("BOT_JSON")
 
 
 
@@ -168,5 +157,6 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
 
 
