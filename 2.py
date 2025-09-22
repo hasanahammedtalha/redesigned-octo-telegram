@@ -10,23 +10,42 @@ import json
 # --- আপনার তথ্য এখানে দিন ---
 # আপনার টেলিগ্রাম বটের টোকেন
 TOKEN = "7884768889:AAHyXrH1YDwwPhHP-pZn9R5ukWhFPB4xG2U"
-# আপনার নিজের টেলিগ্রাম Chat ID (স্ট্রিং হিসাবে)
+
+# --- আপনার তথ্য এখানে দিন ---
+TOKEN = "7884768889:AAHyXrH1YDwwPhHP-pZn9R5ukWhFPB4xG2U"
 ADMIN_ID = "6893452352"
+FIREBASE_URL = 'https://jahanara-ef632-default-rtdb.asia-southeast1.firebasedatabase.app/'
 
-# Firebase সেটআপ
-# serviceAccountKey.json ফাইলটির সঠিক পাথ দিন
-cred_json = os.environ.get("BOT_JSON")
+# --- Firebase সেটআপ (নতুন এবং সঠিক পদ্ধতি) ---
+try:
+    # ধাপ ১: Render এর Environment Variable থেকে JSON স্ট্রিংটি খোঁজা হচ্ছে
+    # (নিশ্চিত করুন Render-এ আপনার ভেরিয়েবলের নাম 'FIREBASE_CREDENTIALS_JSON')
+    creds_json_str = os.environ.get('BOT_JSON')
 
+    if creds_json_str is None:
+        # যদি Render-এ ভেরিয়েবল না পাওয়া যায়, তাহলে লোকাল ফাইল ব্যবহার করবে
+        print("Environment variable not found. Trying local file...")
+        cred = credentials.Certificate("serviceAccountKey.json")
+    else:
+        # যদি Render-এ ভেরিয়েবল পাওয়া যায়
+        print("Initializing Firebase from environment variable...")
+        # ধাপ ২: JSON স্ট্রিংটিকে পাইথন ডিকশনারিতে রূপান্তর করা হচ্ছে (সবচেয়ে গুরুত্বপূর্ণ ধাপ)
+        creds_dict = json.loads(creds_json_str)
+        # ধাপ ৩: ডিকশনারি ব্যবহার করে ক্রেডেনশিয়াল তৈরি করা হচ্ছে
+        cred = credentials.Certificate(creds_dict)
 
+    # Firebase অ্যাপ চালু করা (শুধুমাত্র যদি আগে থেকে চালু না থাকে)
+    if not firebase_admin._apps:
+        firebase_admin.initialize_app(cred, {
+            'databaseURL': FIREBASE_URL
+        })
+    
+    ref = db.reference('/')
+    print("✅ Firebase successfully initialized.")
 
-cred = credentials.Certificate(cred_json)
-firebase_admin.initialize_app(cred, {
-    # আপনার Firebase Realtime Database-এর URL
-    'databaseURL': 'https://jahanara-ef632-default-rtdb.asia-southeast1.firebasedatabase.app/'
-})
-# ডাটাবেসের একটি রেফারেন্স তৈরি করা
-ref = db.reference('/')
-# --- তথ্য দেওয়া শেষ ---
+except Exception as e:
+    print(f"❌ Firebase initialization failed: {e}")
+    ref = None
 
 
 # লগিং কনফিগার করা হচ্ছে
@@ -157,6 +176,7 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
 
 
 
